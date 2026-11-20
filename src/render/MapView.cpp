@@ -2697,6 +2697,18 @@ float4 PSTerrain(PSIn i) : SV_Target
 				// A unit seen on another plot before walks there. Its move order supplies every
 				// legal intermediate plot; snapshots alone only reveal the final one.
 				const uint64_t key = uint64_t(uint32_t(u.owner)) << 32 | uint32_t(u.id);
+				// A newly created unit may move before a snapshot has ever shown it. A unit
+				// that was shown earlier may also have a stale position after spending time
+				// under another unit in its stack. The accepted path's original plot is
+				// authoritative in either case.
+				if (u.id >= 0 && u.moveStartsAtOrigin && !u.moveSteps.empty())
+				{
+					const UnitView::MoveStep& origin = u.moveSteps.front();
+					Vec3 from{ (float(origin.x) + 0.5f) * S(), (float(origin.y) + 0.5f) * S(), 0 };
+					if (cityPlots.contains(origin.x + origin.y * map.width))
+						from.y -= 0.3f * S();
+					unitPositions[key] = from;
+				}
 				if (const auto it = unitPositions.find(key); it != unitPositions.end() && u.id >= 0)
 				{
 					auto& route = motions[key];

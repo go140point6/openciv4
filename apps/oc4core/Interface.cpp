@@ -433,6 +433,7 @@ namespace oc4::host
 		Movement out = it->second;
 		out.plots.resize(count);
 		it->second.plots.erase(it->second.plots.begin(), it->second.plots.begin() + count);
+		it->second.startsAtOrigin = false;
 		if (it->second.plots.empty())
 			g_movements.erase(it);
 		return out;

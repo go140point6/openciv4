@@ -1340,7 +1340,11 @@ namespace
 						for (CLLNode<IDInfo>* node = ui.headSelectionListNode(); node; node = ui.nextSelectionListNode(node))
 							units.push_back(node->m_data);
 						std::vector<std::pair<int, int>> plots;
-						for (size_t i = 1; i < way.points.size(); ++i)
+						// Keep the origin as well as the destinations. A unit created since the
+						// last map snapshot has no rendered position yet, so the renderer needs
+						// the origin to animate its first move instead of first seeing it at the
+						// destination.
+						for (size_t i = 0; i < way.points.size(); ++i)
 							plots.emplace_back(way.points[i].x, way.points[i].y);
 						host::Entities::planMovement(units, plots);
 					}

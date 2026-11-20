@@ -155,6 +155,7 @@ namespace oc4::render
 		int shownOwner = -1; // whose it looks to the active team (getVisualOwner: a hidden nationality's, the barbarians')
 		int direction = 4; // DirectionTypes the unit faces (south)
 		std::vector<MoveStep> moveSteps; // the accepted move order's plots, in order
+		bool moveStartsAtOrigin = false; // the first step is where this move order began
 		std::vector<int> models; // one per figure of the formation, into MapSnapshot::models
 		int count = 1;           // units on the plot
 		float health = 1;

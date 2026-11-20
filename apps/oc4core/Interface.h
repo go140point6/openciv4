@@ -380,6 +380,7 @@ namespace oc4::host
 		{
 			IDInfo unit;
 			std::vector<std::pair<int, int>> plots;
+			bool startsAtOrigin = true;
 		};
 		static void planMovement(const std::vector<IDInfo>& units, const std::vector<std::pair<int, int>>& plots);
 		static std::optional<Movement> movement(const IDInfo& unit, int x, int y);
